@@ -4,13 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "imageMin": "gulp imageMin",
-    "copyHtml": "gulp copyHtml"
+    "html": "gulp html",
+    "serve": "gulp serve",
+    "sass": "gulp sass",
+    "clean": "gulp clean",
+    "devserver": "gulp devserver"
   },
-  "author": "",
+  "author": "Postu Ivan",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "browser-sync": "^2.26.10",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
-    "gulp-imagemin": "^7.1.0"
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^4.14.1"
   }
 }
