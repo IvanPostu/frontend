@@ -1,33 +1,32 @@
 import gulp from 'gulp';
 import dotenv from 'dotenv'
+import log from 'fancy-log'
 
-import { fgcyan, reset } from './gulp/colors'
+import { fgcyan, fgwhite, bgmagenta, reset } from './gulp/colors'
 import { clean } from './gulp/clean'
 import { html } from './gulp/html'
 import { sass } from './gulp/sass'
-import initServer from './gulp/initServer'
+import { initServer } from './gulp/initServer'
 import { rebuild } from './gulp/rebuild';
 
 const browserSync = require('browser-sync').create();
 const dotenvConfig = dotenv.config()
 
-
 if (dotenvConfig.error) {
   throw dotenvConfig.error
 }
- 
+
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
 
 if(!isDev && !isProd){
-  throw Error()
+  throw Error('process.env.NODE_ENV is undefined or not valid.')
 }
 
-console.info(fgcyan, `
-  Application is running in ${isDev ? 'DEBUG' : 'PRODUCTION'} mode,
-  to change mode you need to change NODE_ENV value in .env file.
-`, reset);
-
+log(fgcyan, `Application is running in `+
+  `${bgmagenta+fgwhite}${isDev ? 'DEBUG' : 'PRODUCTION'}${reset+fgcyan} mode, `+
+  `to change mode you need to change NODE_ENV value in .env file.`, reset
+);
 
 function serve(){
   initServer(browserSync)
@@ -36,11 +35,12 @@ function serve(){
     gulp.series(html, browserSync.reload)
   );
   
-  gulp.watch("./src/**/*.scss", sass(browserSync));
+  gulp.watch("./src/**/*.scss", sass(isDev, browserSync));
 }
 
-gulp.task('serve',  gulp.series(rebuild(), serve));
-gulp.task('rebuild', rebuild())
-gulp.task('html', html)
+const rebuildTask = rebuild(isDev)
+
+gulp.task('serve',  gulp.series(rebuildTask, serve));
+gulp.task('rebuild', rebuildTask)
 gulp.task('clean', clean)
 

@@ -1,19 +1,31 @@
 import gulp from 'gulp';
+import gulpIf from 'gulp-if'
+import sourcemaps from 'gulp-sourcemaps';
 import gulpSass from 'gulp-sass';
+import log from 'fancy-log'
 
 gulpSass.compiler = require('node-sass');
 
-export function sass(browserSync){
+export function sass(isDev, browserSync){
+
   return function sass(){
-    if(!browserSync){
-      return gulp.src('./src/**/*.scss')
-        .pipe(gulpSass().on('error', gulpSass.logError))
-        .pipe(gulp.dest('./dist'))
+    let resultStream = gulp.src('./src/**/*.scss')
+      .pipe(gulpIf(isDev, sourcemaps.init()))
+      .pipe(gulpSass({outputStyle: isDev ? 'expanded' : 'compressed'})
+        .on('error', gulpSass.logError))
+      .pipe(gulpIf(isDev, sourcemaps.write('.')))
+      .pipe(gulp.dest('./dist'))
+
+    if(browserSync){
+      const browserSyncStream = browserSync.stream()
+
+      resultStream = resultStream
+        .pipe(browserSyncStream)
+        .on('end', () => {
+          log('Sass changes made to browser ')
+        })
     }
 
-    return gulp.src('./src/**/*.scss')
-      .pipe(gulpSass().on('error', gulpSass.logError))
-      .pipe(gulp.dest('./dist'))
-      .pipe(browserSync.stream());
+    return resultStream
   }
 }

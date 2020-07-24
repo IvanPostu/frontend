@@ -1,5 +1,11 @@
-$cl: rgb(102, 255, 0);
+$cl: rgb(204, 185, 17);
 
 .q1{
   background: $cl;
+
+  & .q2{
+    font-size: 22px;
+    color: blue;
+  }
+
 }

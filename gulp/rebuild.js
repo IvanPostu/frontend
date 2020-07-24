@@ -3,6 +3,6 @@ import { clean } from './clean';
 import { html } from './html';
 import { sass } from './sass';
 
-export function rebuild(isDevelopment){
-  return gulp.series(clean, gulp.parallel(html, sass()))
+export function rebuild(isDev){
+  return gulp.series(clean, gulp.parallel(html, sass(isDev)))
 }

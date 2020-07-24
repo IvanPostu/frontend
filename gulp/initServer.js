@@ -1,4 +1,4 @@
-export default function(browserSync) {
+export function initServer(browserSync) {
   browserSync.init({
     open:false,
     server: {
