@@ -1,47 +1,46 @@
-const gulp = require('gulp')
-const imagemin = require('gulp-imagemin')
-const uglify = require('gulp-uglify')
-const sass = require('gulp-sass')
-const del = require('del')
+import gulp from 'gulp';
+import dotenv from 'dotenv'
+
+import { fgcyan, reset } from './gulp/colors'
+import { clean } from './gulp/clean'
+import { html } from './gulp/html'
+import { sass } from './gulp/sass'
+import initServer from './gulp/initServer'
+import { rebuild } from './gulp/rebuild';
+
 const browserSync = require('browser-sync').create();
+const dotenvConfig = dotenv.config()
 
-sass.compiler = require('node-sass')
 
-function cleanTask(){
-  return del(['dist'])
+if (dotenvConfig.error) {
+  throw dotenvConfig.error
+}
+ 
+const isDev = process.env.NODE_ENV === 'development'
+const isProd = process.env.NODE_ENV === 'production'
+
+if(!isDev && !isProd){
+  throw Error()
 }
 
-function htmlTask(){
-  return gulp.src('src/**/*.html')
-    .pipe(gulp.dest('dist'))
+console.info(fgcyan, `
+  Application is running in ${isDev ? 'DEBUG' : 'PRODUCTION'} mode,
+  to change mode you need to change NODE_ENV value in .env file.
+`, reset);
+
+
+function serve(){
+  initServer(browserSync)
+  
+  gulp.watch('src/**/*.html').on('change', 
+    gulp.series(html, browserSync.reload)
+  );
+  
+  gulp.watch("./src/**/*.scss", sass(browserSync));
 }
 
-function sassTask(){
-  return gulp.src('./src/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./dist'))
-    .pipe(browserSync.stream());
-}
+gulp.task('serve',  gulp.series(rebuild(), serve));
+gulp.task('rebuild', rebuild())
+gulp.task('html', html)
+gulp.task('clean', clean)
 
-function devserverTask() {
-  browserSync.init({
-    open:false,
-    server: {
-      baseDir: "./dist"
-    }
-  });
-}
-
-gulp.task('sass', sassTask);
-gulp.task('serve',  function() {
-
-  devserverTask()
-
-  // gulp.watch("app/*.html").on('change', browserSync.reload);
-  // gulp.watch("./src/**/*.scss", sassTask);
-});
-
-
-gulp.task('html', htmlTask)
-gulp.task('clean', cleanTask)
-gulp.task('devserver', devserverTask);

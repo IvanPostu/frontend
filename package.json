@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "html": "gulp html",
-    "serve": "gulp serve",
     "sass": "gulp sass",
     "clean": "gulp clean",
-    "devserver": "gulp devserver"
+    "serve": "gulp serve",
+    "rebuild": "gulp rebuild"
   },
   "author": "Postu Ivan",
   "license": "ISC",
@@ -27,5 +27,8 @@
     "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
     "node-sass": "^4.14.1"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
   }
 }
