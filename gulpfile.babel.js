@@ -29,6 +29,8 @@ log(fgcyan, `Application is running in `+
   `to change mode you need to change NODE_ENV value in .env file.`, reset
 );
 
+
+
 function serve(){
   initServer(browserSync)
   
