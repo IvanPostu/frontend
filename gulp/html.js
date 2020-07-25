@@ -15,5 +15,3 @@ export function html(){
     .pipe(gulp.dest('dist'))
 }
 
-
-// , {since: gulp.lastRun()}
