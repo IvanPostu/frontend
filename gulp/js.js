@@ -1,12 +1,17 @@
 import gulp from 'gulp'
-import gulpIf from 'gulp-if'
-import uglify from 'gulp-uglify'
-import log from 'fancy-log';
+import log from 'fancy-log'
+import named from 'vinyl-named'
+import webpackStream from 'webpack-stream'
 
 export function js(isDev, browserSync){
+
+  const webpackOptions = require('./webpack.config.js')(isDev)
+
   return function js(){
+
     let resultStream = gulp.src('./src/**/*.js')
-      .pipe(gulpIf(isDev, uglify()))
+      .pipe(named())
+      .pipe(webpackStream(webpackOptions))
       .pipe(gulp.dest('./dist'))
 
     if(browserSync){

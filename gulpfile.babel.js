@@ -2,14 +2,13 @@ import gulp from 'gulp';
 import dotenv from 'dotenv'
 import log from 'fancy-log'
 
-import { fgcyan, fgwhite, bgmagenta, reset } from './gulp/colors'
+import { fgcyan, fgwhite, bgyellow, reset } from './gulp/colors'
 import { clean } from './gulp/clean'
 import { html } from './gulp/html'
 import { sass } from './gulp/sass'
 import { js } from './gulp/js'
 import { initServer } from './gulp/initServer'
 import { rebuild } from './gulp/rebuild'
-
 
 const browserSync = require('browser-sync').create();
 const dotenvConfig = dotenv.config()
@@ -26,7 +25,7 @@ if(!isDev && !isProd){
 }
 
 log(fgcyan, `Application is running in `+
-  `${bgmagenta+fgwhite}${isDev ? 'DEVELOPMENT' : 'PRODUCTION'}${reset+fgcyan} mode, `+
+  `${bgyellow+fgwhite}${isDev ? 'DEVELOPMENT' : 'PRODUCTION'}${reset+fgcyan} mode, `+
   `to change mode you need to change NODE_ENV value in .env file.`, reset
 );
 
