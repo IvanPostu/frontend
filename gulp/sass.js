@@ -6,7 +6,9 @@ import log from 'fancy-log'
 
 gulpSass.compiler = require('node-sass');
 
-export function sass(isDev, browserSync){
+export function sass(browserSync){
+
+  const isDev = process.env.NODE_ENV === 'development'
 
   return function sass(){
     let resultStream = gulp.src('./src/**/*.scss')

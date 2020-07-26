@@ -3,9 +3,10 @@ import log from 'fancy-log'
 import named from 'vinyl-named'
 import webpackStream from 'webpack-stream'
 
-export function js(isDev, browserSync){
+export function js(browserSync){
 
-  const webpackOptions = require('./webpack.config.js')(isDev)
+  const isDev = process.env.NODE_ENV === 'development'
+  const webpackOptions = require('./webpack.config.js')
 
   return function js(){
 

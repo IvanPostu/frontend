@@ -1,17 +1,12 @@
-import gulp from 'gulp';
+import gulp from 'gulp'
 import debug from 'gulp-debug'
+import gulpIf from 'gulp-if'
 
-const taskName = 'html'
-
-/**
- * TODO:
- * Write test for compare function name and gulp.lastRun(name)
- */
 export function html(){
 
-  //gulp.lastRun(html) - html is function name
+  const isDev = process.env.NODE_ENV === 'development'
+
   return gulp.src('src/**/*.html', {since: gulp.lastRun(html)})
-    .pipe(debug({title: 'html'}))
+    .pipe(gulpIf(isDev, debug({title: 'html'})))
     .pipe(gulp.dest('dist'))
 }
-
