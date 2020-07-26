@@ -1,6 +1,5 @@
 import del from 'del'
 
-export function clean(){
+export function clean() {
   return del(['./dist'])
 }
-

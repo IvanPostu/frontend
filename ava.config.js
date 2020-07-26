@@ -1,9 +1,4 @@
 export default {
-  files: [
-    './src/**/*.test.js'
-  ],
-  require: [
-    '@babel/register'
-  ]
+  files: ['./src/**/*.test.js'],
+  require: ['@babel/register']
 }
-

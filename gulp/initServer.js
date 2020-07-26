@@ -1,8 +1,8 @@
 export function initServer(browserSync) {
   browserSync.init({
-    open:false,
+    open: false,
     server: {
-      baseDir: "./dist"
+      baseDir: './dist'
     }
-  });
+  })
 }

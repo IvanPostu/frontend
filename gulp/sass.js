@@ -1,31 +1,30 @@
-import gulp from 'gulp';
+import gulp from 'gulp'
 import gulpIf from 'gulp-if'
-import sourcemaps from 'gulp-sourcemaps';
-import gulpSass from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps'
+import gulpSass from 'gulp-sass'
 import log from 'fancy-log'
 
-gulpSass.compiler = require('node-sass');
+gulpSass.compiler = require('node-sass')
 
-export function sass(browserSync){
-
+export function sass(browserSync) {
   const isDev = process.env.NODE_ENV === 'development'
 
-  return function sass(){
-    let resultStream = gulp.src('./src/**/*.scss')
+  return function sass() {
+    let resultStream = gulp
+      .src('./src/**/*.scss')
       .pipe(gulpIf(isDev, sourcemaps.init()))
-      .pipe(gulpSass({outputStyle: isDev ? 'expanded' : 'compressed'})
-        .on('error', gulpSass.logError))
+      .pipe(
+        gulpSass({ outputStyle: isDev ? 'expanded' : 'compressed' }).on('error', gulpSass.logError)
+      )
       .pipe(gulpIf(isDev, sourcemaps.write('.')))
       .pipe(gulp.dest('./dist'))
 
-    if(browserSync){
+    if (browserSync) {
       const browserSyncStream = browserSync.stream()
 
-      resultStream = resultStream
-        .pipe(browserSyncStream)
-        .on('end', () => {
-          log('Sass changes made to browser ')
-        })
+      resultStream = resultStream.pipe(browserSyncStream).on('end', () => {
+        log('Sass changes made to browser ')
+      })
     }
 
     return resultStream

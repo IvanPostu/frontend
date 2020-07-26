@@ -1,28 +1,26 @@
-import { sayHello } from './hello';
+import { sayHello } from './hello'
 
-class People{
-
+class People {
   static X = 22
 
-  constructor(){
+  constructor() {
     this.name = 'jonny'
   }
-
 }
 
 const p = new People()
 
-console.log(p.name);
-console.log(People.X);
+const node = document.getElementById('q')
 
-console.log('11AAAAAAAAa');
-console.log(sayHello('Jonny'));
-console.log('11AAAAAAAAa');
+node.innerHTML += '<br/>' + p.name
+node.innerHTML += '<br/>' + People.X
 
-async function asyncTest(){
+node.innerHTML += '<br/>' + sayHello('Jonny')
+node.innerHTML += '<br/>' + People.X
+
+async function asyncTest() {
   const res = await Promise.resolve('async work with success')
-  console.log(res);
+  node.innerHTML += '<br/>' + res
 }
-
 
 asyncTest()

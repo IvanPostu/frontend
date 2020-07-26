@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "echo \"Pre commit hook.\"",
+    "pre-push": "npm run test && npm run eslint:strict"
+  }
+}
