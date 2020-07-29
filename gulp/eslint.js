@@ -12,8 +12,8 @@ export function eslint() {
   const throwOnWarn = process.env.ESLINT_THROW_ON_WARN === 'true'
 
   const result = gulp
-    .src(['**/*.js', '!node_modules{,/**}', '!dist{,/**}'])
-    .pipe(gulpEslint({ fix: true }))
+    .src(['**/*.js', '!node_modules{,/**}'])
+    .pipe(gulpEslint({ fix: true, configFile: '.eslintrc' }))
     .pipe(gulpEslint.format())
     .pipe(gulpIf(isFixed, gulp.dest('./')))
     .pipe(

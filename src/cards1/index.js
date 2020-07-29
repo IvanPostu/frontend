@@ -4,7 +4,7 @@ class People {
   static X = 22
 
   constructor() {
-    this.name = 'jonny'
+    this.name = 'jonny11'
   }
 }
 

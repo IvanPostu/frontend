@@ -1,8 +1,12 @@
 const glob = require('glob')
 const log = require('fancy-log')
 const webpack = require('webpack-stream').webpack
+const { hashLength } = require('./jsOutputHashLength')
 
 const isDev = process.env.NODE_ENV === 'development'
+const isProd = !isDev
+
+let jsEntryPointsCache = null
 
 /**
  * Slow function, read all index.js file in dir tree,
@@ -14,13 +18,21 @@ function loadEntryPoints() {
     return {}
   }
 
-  const jsEntryPoints = glob
-    .sync('./src/**/index.js')
-    .reduce((result, item) => ((result[item.replace('./src/', '')] = item), result), {})
+  if (jsEntryPointsCache !== null) {
+    log.info('(Using cache) Webpack entry points: ', Object.values(jsEntryPointsCache))
+    return jsEntryPointsCache
+  }
 
-  const entryPointsForLog = Object.values(jsEntryPoints)
+  const jsEntryPoints = glob.sync('./src/**/index.js').reduce((result, item) => {
+    let k = item.replace('./src/', '')
+    k = k.replace('.js', '')
 
-  log.info('(Slow FS operation) Webpack entry points: ', entryPointsForLog)
+    result[k] = item
+    return result
+  }, {})
+
+  log.info('(Slow FS operation) Webpack entry points: ', Object.values(jsEntryPoints))
+  jsEntryPointsCache = jsEntryPoints
 
   return jsEntryPoints
 }
@@ -28,7 +40,8 @@ function loadEntryPoints() {
 module.exports = {
   entry: loadEntryPoints(),
   output: {
-    filename: '[name]'
+    filename: isProd ? `[name].[contenthash:${hashLength()}].js` : '[name].js',
+    hashFunction: 'sha1'
   },
   mode: process.env.NODE_ENV,
   watch: false,
