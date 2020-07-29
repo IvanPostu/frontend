@@ -6,6 +6,7 @@ import { js } from './js'
 import { test } from './test'
 import { eslint } from './eslint'
 import { injectIndexScript } from './injectIndexScriptIntoIndexHtml'
+import { imagemin } from './assets'
 
 export function build() {
   const isDev = process.env.NODE_ENV === 'development'
@@ -14,7 +15,7 @@ export function build() {
   const seriesTasks = [
     clean,
     ...(isProd ? [gulp.parallel([test, eslint])] : []),
-    gulp.parallel([html, sass(), js()]),
+    gulp.parallel([html, sass(), js(), imagemin]),
     injectIndexScript
   ]
 

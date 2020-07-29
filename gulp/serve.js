@@ -4,6 +4,7 @@ import { sass } from './sass'
 import { js } from './js'
 import { initServer } from './initServer'
 import { injectIndexScript } from './injectIndexScriptIntoIndexHtml'
+import { imagemin } from './assets'
 
 export function serve() {
   const browserSync = require('browser-sync').create()
@@ -13,4 +14,5 @@ export function serve() {
 
   gulp.watch('./src/**/*.scss', sass(browserSync))
   gulp.watch('./src/**/*.js', js(browserSync))
+  gulp.watch('src/assets/images/*', imagemin)
 }

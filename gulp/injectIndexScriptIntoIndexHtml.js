@@ -34,6 +34,9 @@ function indexJsInjector() {
 }
 
 export function injectIndexScript() {
-  const task = gulp.src('dist/**/index.html').pipe(indexJsInjector()).pipe(gulp.dest('dist'))
+  const task = gulp
+    .src('dist/**/index.html', { since: gulp.lastRun(injectIndexScript) })
+    .pipe(indexJsInjector())
+    .pipe(gulp.dest('dist'))
   return task
 }
