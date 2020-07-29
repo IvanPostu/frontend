@@ -11,7 +11,8 @@
     "build:prod": "cross-env DOTENV_FILE=.env.production gulp build",
     "start": "cross-env DOTENV_FILE=.env.development gulp serve",
     "eslint:strict": "cross-env SKIP_SLOW_FUNCTIONS=true ESLINT_THROW_ON_WARN=true gulp eslint",
-    "eslint": "cross-env SKIP_SLOW_FUNCTIONS=true ESLINT_THROW_ON_WARN=false gulp eslint"
+    "eslint": "cross-env SKIP_SLOW_FUNCTIONS=true ESLINT_THROW_ON_WARN=false gulp eslint",
+    "pre-push": "npm run test && npm run eslint:strict"
   },
   "author": "Postu Ivan",
   "license": "ISC",
