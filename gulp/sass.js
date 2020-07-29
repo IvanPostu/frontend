@@ -11,7 +11,7 @@ export function sass(browserSync) {
 
   return function sass() {
     let resultStream = gulp
-      .src('./src/**/*.scss')
+      .src('./src/**/*.scss', { since: gulp.lastRun(sass) })
       .pipe(gulpIf(isDev, sourcemaps.init()))
       .pipe(
         gulpSass({ outputStyle: isDev ? 'expanded' : 'compressed' }).on('error', gulpSass.logError)
